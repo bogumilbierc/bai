@@ -13,19 +13,19 @@ import pl.bogumil.bai.service.MessageService;
  */
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class MessageController {
+public class MessageController extends AbstractController {
 
     private final MessageService messageService;
 
     @RequestMapping("/removeMessage")
     public String removeMessage(@RequestParam("messageId") Integer messageId) {
         messageService.removeMessage(messageId);
-        return "redirect:/";
+        return REDIRECT_TO_HOME_PAGE;
     }
 
     @RequestMapping("/manageAllowance")
     public String manageAllowancePage(@RequestParam("messageId") Integer messageId, Model model) {
-        model.addAttribute("message", messageService.getMessageForManagement(messageId));
+        model.addAttribute(MESSAGE, messageService.getMessageForManagement(messageId));
         model.addAttribute("notAllowedUsers", messageService.getUsersThatDontHaveGrantsToMesage(messageId));
         return "manageAllowance";
     }
@@ -33,13 +33,25 @@ public class MessageController {
     @RequestMapping("/grantAccess")
     public String grantAccessToMessage(@RequestParam("messageId") Integer messageId, @RequestParam("userId") Integer userId) {
         messageService.grantAccessToMessage(messageId, userId);
-        return "manageAllowance?messageId=" + messageId;
+        return "redirect:/manageAllowance?messageId=" + messageId;
     }
 
     @RequestMapping("/revokeAccess")
     public String revokeAccessToMessage(@RequestParam("messageId") Integer messageId, @RequestParam("userId") Integer userId) {
         messageService.revokeAccessToMessage(messageId, userId);
-        return "manageAllowance?messageId=" + messageId;
+        return "redirect:/manageAllowance?messageId=" + messageId;
+    }
+
+    @RequestMapping("/editMessagePage")
+    public String editMessagePage(@RequestParam("messageId") Integer messageId, Model model) {
+        model.addAttribute(MESSAGE, messageService.getMessageForEdit(messageId));
+        return "editMessage";
+    }
+
+    @RequestMapping("/editMessage")
+    public String editMessage(@RequestParam("messageId") Integer messageId, @RequestParam("content") String content) {
+        messageService.editMessage(messageId, content);
+        return REDIRECT_TO_HOME_PAGE;
     }
 
 }

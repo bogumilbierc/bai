@@ -72,6 +72,30 @@ public class MessageService {
         }
     }
 
+    public Message getMessageForEdit(Integer id) {
+
+        UserInSession userInSession = sessionHelper.getUserFromSession();
+        if (userInSession == null) {
+            throw new Unauthorized403Exception();
+        }
+
+        Message message = messageRepository.findOne(id);
+        UserProfile userProfile = userProfileRepository.findOne(qup.login.eq(userInSession.getLogin()));
+        if (message.getUsers().contains(userProfile) || message.getOwner().equals(userProfile)) {
+            return message;
+        } else {
+            log.warn("próba zarzadzania cudza wiadomoscia, messageId: " + id + " user: " + userInSession.getLogin());
+            throw new Unauthorized403Exception();
+        }
+    }
+
+    @Transactional
+    public void editMessage(Integer id, String content) {
+        Message message = getMessageForEdit(id);
+        message.setContent(content);
+        messageRepository.saveAndFlush(message);
+    }
+
     @Transactional
     public void grantAccessToMessage(Integer messageId, Integer userId) {
         UserInSession userInSession = sessionHelper.getUserFromSession();
@@ -119,4 +143,6 @@ public class MessageService {
                 .stream(userProfileIterable.spliterator(), false)
                 .collect(Collectors.toList());
     }
+
+
 }

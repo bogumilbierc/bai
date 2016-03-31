@@ -11,7 +11,7 @@ import pl.bogumil.bai.helper.SessionHelper;
  * Created by bbierc on 2016-03-31.
  */
 @Controller
-public class LoginController {
+public class LoginController extends AbstractController{
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -22,13 +22,13 @@ public class LoginController {
         userInSession.setLogin(login);
         userInSession.setId(-1);
         sessionHelper.setUserInSession(userInSession);
-        return "redirect:/";
+        return REDIRECT_TO_HOME_PAGE;
     }
 
     @RequestMapping("/logout")
     public String logout() {
         sessionHelper.removeUserInSession();
-        return "redirect:/";
+        return REDIRECT_TO_HOME_PAGE;
     }
 
 }

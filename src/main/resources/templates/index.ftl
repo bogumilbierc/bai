@@ -32,10 +32,20 @@
                             </form>
                         </div>
                     </#if>
+                    <#if allowedMessages?seq_contains(message.id) || message.owner.login==USER.login>
+                        <div style="padding: 4px">
+                            <form method="get" action="editMessagePage">
+                                <input type="hidden" name="messageId" value="${message.id}">
+                                <button type="submit" class="btn btn-info">edytuj</button>
+                            </form>
+                        </div>
+                    </#if>
                 </#if>
             </td>
         </tr>
     </#list>
 </table>
+
+
 
 </@masterPage.masterPage>
