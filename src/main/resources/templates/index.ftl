@@ -21,13 +21,13 @@
                     <#if message.owner.login==USER.login>
                         <div style="padding: 4px">
                             <form method="get" action="removeMessage">
-                                <input type="hidden" name="id" value="${message.id}">
+                                <input type="hidden" name="messageId" value="${message.id}">
                                 <button type="submit" class="btn btn-danger">usuń</button>
                             </form>
                         </div>
                         <div style="padding: 4px">
                             <form method="get" action="manageAllowance">
-                                <input type="hidden" name="id" value="${message.id}">
+                                <input type="hidden" name="messageId" value="${message.id}">
                                 <button type="submit" class="btn btn-info">zarządzaj uprawnieniami</button>
                             </form>
                         </div>
