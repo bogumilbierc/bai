@@ -6,7 +6,7 @@
 
     <groupId>pl.bogumilbierc</groupId>
     <artifactId>bai</artifactId>
-    <version>1.0.SNAP</version>
+    <version>1.0.SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
