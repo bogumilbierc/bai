@@ -1,5 +1,5 @@
-[#import "masterPage.ftl" as layout /]
+<#import "masterPage.ftl" as masterPage/>
 
-[@layout.masterPage title="My test page"]
-...content goes here...
-[/@layout.masterPage]
+<@masterPage.masterPage>
+sample content
+</@masterPage.masterPage>
