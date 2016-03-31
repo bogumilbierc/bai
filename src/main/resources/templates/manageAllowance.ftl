@@ -28,12 +28,33 @@
 </table>
 
 <h3>Użytkownicy z dostępem</h3>
+<table class="table table-bordered">
     <#list message.users as user>
-    <ul>
-        <li>${user.login}</li>
-    </ul>
+        <tr>
+            <td>${user.login}</td>
+            <td style="padding: 3px">
+                <form method="get" action="revokeAccess">
+                    <input type="hidden" name="messageId" value="${message.id}">
+                    <input type="hidden" name="userId" value="${user.id}">
+                    <button type="submit" class="btn btn-submit">zabierz</button>
+                </form>
+            </td>
+        </tr>
     </#list>
+</table>
 
 <h3>Nadaj dostęp</h3>
+
+<form action="grantAccess" method="get">
+    <input type="hidden" name="messageId" value="${message.id}">
+    <div class="form-group">
+        <select class="form-control" name="userId">
+            <#list notAllowedUsers as user>
+                <option value="${user.id}">${user.login}</option>
+            </#list>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-submit">nadaj</button>
+</form>
 
 </@masterPage.masterPage>

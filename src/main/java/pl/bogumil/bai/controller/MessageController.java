@@ -26,12 +26,19 @@ public class MessageController {
     @RequestMapping("/manageAllowance")
     public String manageAllowancePage(@RequestParam("messageId") Integer messageId, Model model) {
         model.addAttribute("message", messageService.getMessageForManagement(messageId));
+        model.addAttribute("notAllowedUsers", messageService.getUsersThatDontHaveGrantsToMesage(messageId));
         return "manageAllowance";
     }
 
     @RequestMapping("/grantAccess")
     public String grantAccessToMessage(@RequestParam("messageId") Integer messageId, @RequestParam("userId") Integer userId) {
         messageService.grantAccessToMessage(messageId, userId);
+        return "manageAllowance?messageId=" + messageId;
+    }
+
+    @RequestMapping("/revokeAccess")
+    public String revokeAccessToMessage(@RequestParam("messageId") Integer messageId, @RequestParam("userId") Integer userId) {
+        messageService.revokeAccessToMessage(messageId, userId);
         return "manageAllowance?messageId=" + messageId;
     }
 
