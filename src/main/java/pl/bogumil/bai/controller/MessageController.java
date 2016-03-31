@@ -29,4 +29,10 @@ public class MessageController {
         return "manageAllowance";
     }
 
+    @RequestMapping("/grantAccess")
+    public String grantAccessToMessage(@RequestParam("messageId") Integer messageId, @RequestParam("userId") Integer userId) {
+        messageService.grantAccessToMessage(messageId, userId);
+        return "manageAllowance?messageId=" + messageId;
+    }
+
 }

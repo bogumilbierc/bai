@@ -63,4 +63,8 @@ public class MessageService {
             throw new Unauthorized403Exception();
         }
     }
+
+    public void grantAccessToMessage(Integer messageId, Integer userId) {
+
+    }
 }
