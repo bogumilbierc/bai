@@ -17,7 +17,11 @@ public class BaiControllerAdvice {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public String badCredentialsHandler() {
+    public String badCredentialsHandler(BadCredentialsException exception) {
+
+        if (exception.getMessage() != null && exception.getMessage().equals("edycja")) {
+            return "redirect:/userAccountPage?error=oldPass";
+        }
         return "badCredentials";
     }
 
@@ -44,8 +48,11 @@ public class BaiControllerAdvice {
     }
 
     @ExceptionHandler(PasswordDoesNotMeetSpecifiedCriteriaException.class)
-    public String passwordDoesNotMeetSpecifiedCriteriaHandler(Model model) {
-        model.addAttribute("error", "Błędny format hasła (min 8 max 16 znaków");
+    public String passwordDoesNotMeetSpecifiedCriteriaHandler(Model model, PasswordDoesNotMeetSpecifiedCriteriaException exception) {
+        if (exception.getMessage() != null && exception.getMessage().equals("edycja")) {
+            return "redirect:/userAccountPage?error=newPass";
+        }
+        model.addAttribute("error", "Błędny format hasła (min 8 max 16 znaków)");
         return "registration";
     }
 

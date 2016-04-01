@@ -1,5 +1,6 @@
 package pl.bogumil.bai.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +12,12 @@ import pl.bogumil.bai.service.LoginService;
  * Created by bbierc on 2016-03-31.
  */
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
 public class LoginController extends AbstractController {
 
-    @Autowired
-    private SessionHelper sessionHelper;
-
-    @Autowired
-    private LoginService loginService;
+    private final SessionHelper sessionHelper;
+    private final LoginService loginService;
 
     @RequestMapping("/login")
     public String login(@RequestParam("login") String login, @RequestParam("password") String password) {

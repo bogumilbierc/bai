@@ -1,6 +1,7 @@
 package pl.bogumil.bai.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.bogumil.bai.dto.UserInSession;
 import pl.bogumil.bai.entity.QUserProfile;
 import pl.bogumil.bai.entity.UserProfile;
+import pl.bogumil.bai.exception.BadCredentialsException;
 import pl.bogumil.bai.exception.PasswordDoesNotMeetSpecifiedCriteriaException;
+import pl.bogumil.bai.exception.Unauthorized403Exception;
 import pl.bogumil.bai.exception.UserWithThatLoginAlreadyExistsException;
 import pl.bogumil.bai.helper.SessionHelper;
 import pl.bogumil.bai.repositories.UserProfileRepository;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Transactional(readOnly = true)
+@Slf4j
 public class UserProfileService {
 
     private final static QUserProfile qup = QUserProfile.userProfile;
@@ -34,7 +38,39 @@ public class UserProfileService {
     @Transactional
     public UserProfile save(UserProfile userProfile) {
         userProfileRepository.saveAndFlush(userProfile);
+//        log.info("zapisano uzytkownika: " + userProfile.getLogin());
         return userProfile;
+    }
+
+    @Transactional
+    public void editUserAccount(Integer delay, Integer attempts) {
+        UserProfile userProfile = getCurrentUser();
+        userProfile.setDelayInSeconds(delay);
+        userProfile.setNumberOfAttempsBeforeBlockade(attempts);
+        userProfileRepository.saveAndFlush(userProfile);
+        log.info("edytowano uzytkownika: " + userProfile.getLogin());
+    }
+
+    @Transactional
+    public void changePassword(String password, String oldPassword) {
+
+        UserProfile userProfile = getCurrentUser();
+        if (passwordEncoder.matches(oldPassword, userProfile.getPassword())) {
+            validatePassword(password, true);
+            userProfile.setPassword(passwordEncoder.encode(password));
+            userProfileRepository.saveAndFlush(userProfile);
+            log.info("zmiana hasla dla uzytkownika " + userProfile.getLogin());
+            return;
+        }
+        throw new BadCredentialsException("edycja");
+    }
+
+    public UserProfile getCurrentUser() {
+        UserInSession userInSession = sessionHelper.getUserFromSession();
+        if (userInSession == null) {
+            throw new Unauthorized403Exception();
+        }
+        return findByLogin(userInSession.getLogin());
     }
 
     public UserProfile findByLogin(String login) {
@@ -47,7 +83,7 @@ public class UserProfileService {
         if (userProfile != null) {
             throw new UserWithThatLoginAlreadyExistsException();
         }
-        validatePassword(password);
+        validatePassword(password, false);
         userProfile = new UserProfile();
         userProfile.setLogin(login);
         userProfile.setDelayInSeconds(delay);
@@ -56,6 +92,7 @@ public class UserProfileService {
         userProfile.setPassword(passwordEncoder.encode(password));
         userProfile.setIsActive(true);
         userProfileRepository.saveAndFlush(userProfile);
+        log.info("zarejestrowano uzytkownika: " + userProfile.getLogin());
     }
 
     public List<Integer> getMessagesThatCurrentUserCanEdit() {
@@ -70,8 +107,11 @@ public class UserProfileService {
                 .collect(Collectors.toList());
     }
 
-    private void validatePassword(String password) {
+    private void validatePassword(String password, boolean accountEdit) {
         if (password.length() < 8 || password.length() > 16) {
+            if (accountEdit) {
+                throw new PasswordDoesNotMeetSpecifiedCriteriaException("edycja");
+            }
             throw new PasswordDoesNotMeetSpecifiedCriteriaException();
         }
     }

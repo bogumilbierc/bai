@@ -1,5 +1,6 @@
 package pl.bogumil.bai.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +11,11 @@ import pl.bogumil.bai.service.UserProfileService;
  * Created by bbierc on 2016-04-01.
  */
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
 public class RegistrationController extends AbstractController {
 
-    @Autowired
-    private UserProfileService userProfileService;
+    private final UserProfileService userProfileService;
 
     @RequestMapping("/registration")
     public String registrationPage() {
