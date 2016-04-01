@@ -37,5 +37,17 @@ public class BaiControllerAdvice {
         return "delayNeeded";
     }
 
+    @ExceptionHandler(UserWithThatLoginAlreadyExistsException.class)
+    public String userWithThatLoginAlreadyExistsHandler(Model model) {
+        model.addAttribute("error", "Login zajęty");
+        return "registration";
+    }
+
+    @ExceptionHandler(PasswordDoesNotMeetSpecifiedCriteriaException.class)
+    public String passwordDoesNotMeetSpecifiedCriteriaHandler(Model model) {
+        model.addAttribute("error", "Błędny format hasła (min 8 max 16 znaków");
+        return "registration";
+    }
+
 
 }

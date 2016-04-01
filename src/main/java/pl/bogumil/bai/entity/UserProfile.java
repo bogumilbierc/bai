@@ -7,6 +7,7 @@ import pl.bogumil.bai.entity.common.EntityBase;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by bbierc on 2016-03-31.
@@ -41,4 +42,15 @@ public class UserProfile extends EntityBase {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "ALLOWED_MESSAGE", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID"))
     private List<Message> allowedMessages;
+
+    @PrePersist
+    public void prePersist() {
+        if (delayInSeconds == null) {
+            delayInSeconds = ThreadLocalRandom.current().nextInt(1, 5);
+        }
+        if (numberOfAttempsBeforeBlockade == null) {
+            numberOfAttempsBeforeBlockade = ThreadLocalRandom.current().nextInt(1, 5);
+        }
+    }
+
 }
