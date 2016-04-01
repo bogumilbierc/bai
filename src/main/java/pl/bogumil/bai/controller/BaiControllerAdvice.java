@@ -1,10 +1,9 @@
 package pl.bogumil.bai.controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import pl.bogumil.bai.exception.BadCredentialsException;
-import pl.bogumil.bai.exception.Unauthorized403Exception;
-import pl.bogumil.bai.exception.UserDoesNotExistsException;
+import pl.bogumil.bai.exception.*;
 
 /**
  * Created by bbierc on 2016-03-31.
@@ -26,5 +25,17 @@ public class BaiControllerAdvice {
     public String userDoesNotExistsHandler() {
         return "userDoesNotExists";
     }
+
+    @ExceptionHandler(UserIsBlockedException.class)
+    public String userIsBlockedHandler() {
+        return "userIsBlocked";
+    }
+
+    @ExceptionHandler(DelayNeededException.class)
+    public String delayNeededHandler(DelayNeededException exception, Model model) {
+        model.addAttribute("blockadeDeadline", exception.getMessage());
+        return "delayNeeded";
+    }
+
 
 }

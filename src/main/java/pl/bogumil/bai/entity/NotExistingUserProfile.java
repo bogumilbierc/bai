@@ -4,24 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.bogumil.bai.entity.common.EntityBase;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by bbierc on 2016-03-31.
  */
-@Table(name = "USER_PROFILE")
+@Table(name = "NOT_EXISTING_USER_PROFILE")
 @Entity
 @Getter
 @Setter
-public class UserProfile extends EntityBase {
+public class NotExistingUserProfile extends EntityBase {
     @Column(name = "LOGIN", unique = true)
     private String login;
-    @Column(name = "PASSWORD")
-    private String password;
-    @Column(name = "LAST_LOGIN_DATE", columnDefinition = "DATETIME")
-    private LocalDateTime lastLoginDate;
     @Column(name = "LAST_FAILED_LOGIN_DATE", columnDefinition = "DATETIME")
     private LocalDateTime lastFailedLoginDate;
     @Column(name = "IS_ACTIVE")
@@ -34,11 +31,4 @@ public class UserProfile extends EntityBase {
     private Integer delayInSeconds;
     @Column(name = "BLOCKADE_DEADLINE", columnDefinition = "DATETIME")
     private LocalDateTime blockadeDeadline;
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Message> ownMessages;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "ALLOWED_MESSAGE", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID"))
-    private List<Message> allowedMessages;
 }
