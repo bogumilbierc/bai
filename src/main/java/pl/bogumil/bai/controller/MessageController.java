@@ -54,4 +54,10 @@ public class MessageController extends AbstractController {
         return REDIRECT_TO_HOME_PAGE;
     }
 
+    @RequestMapping("/addMessage")
+    public String addMessage(@RequestParam("content") String content) {
+        messageService.addMessage(content);
+        return REDIRECT_TO_HOME_PAGE;
+    }
+
 }

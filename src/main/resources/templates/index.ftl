@@ -46,6 +46,17 @@
     </#list>
 </table>
 
+    <#if USER??>
+    <h2>Dodaj wiadomość</h2>
+    <form role="form" method="get" action="addMessage">
+
+        <div class="form-group">
+            <textarea class="form-control" rows="5" name="content"></textarea>
+        </div>
+        <button type="submit" class="btn btn-submit">zapisz</button>
+    </form>
+    </#if>
+
 
 
 </@masterPage.masterPage>

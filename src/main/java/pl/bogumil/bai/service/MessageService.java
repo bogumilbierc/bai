@@ -38,6 +38,20 @@ public class MessageService {
     }
 
     @Transactional
+    public void addMessage(String content) {
+        UserInSession userInSession = sessionHelper.getUserFromSession();
+        if (userInSession == null) {
+            throw new Unauthorized403Exception();
+        }
+        UserProfile userProfile = userProfileRepository.findOne(qup.login.eq(userInSession.getLogin()));
+        Message message = new Message();
+        message.setContent(content);
+        message.setOwner(userProfile);
+        messageRepository.saveAndFlush(message);
+        log.info("Użytkownik: " + userInSession.getLogin() + " dodał wiadomosc");
+    }
+
+    @Transactional
     public void removeMessage(Integer messageId) {
         UserInSession userInSession = sessionHelper.getUserFromSession();
         if (userInSession == null) {
@@ -94,6 +108,7 @@ public class MessageService {
         Message message = getMessageForEdit(id);
         message.setContent(content);
         messageRepository.saveAndFlush(message);
+        log.info("Wiadomosc: " + id + " zostala zmienona");
     }
 
     @Transactional

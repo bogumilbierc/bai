@@ -24,7 +24,7 @@ public class Message extends EntityBase {
     @JoinColumn(name = "OWNER_ID")
     private UserProfile owner;
 
-    @ManyToMany(mappedBy = "allowedMessages", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "allowedMessages", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<UserProfile> users = new ArrayList<>();
 
 }
