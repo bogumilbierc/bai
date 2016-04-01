@@ -27,6 +27,16 @@ public class UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final SessionHelper sessionHelper;
 
+    @Transactional
+    public UserProfile save(UserProfile userProfile) {
+        userProfileRepository.saveAndFlush(userProfile);
+        return userProfile;
+    }
+
+    public UserProfile findByLogin(String login) {
+        return userProfileRepository.findOne(qup.login.eq(login));
+    }
+
     public List<Integer> getMessagesThatCurrentUserCanEdit() {
         UserInSession userInSession = sessionHelper.getUserFromSession();
         if (userInSession == null) {

@@ -2,6 +2,7 @@
 
 <@masterPage.masterPage>
 
-<h2>403 - Brak uprawnień</h2>
+<h2>Użytkownik nie istnieje</h2>
+
 
 </@masterPage.masterPage>
