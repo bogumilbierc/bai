@@ -46,6 +46,9 @@ public class UserProfile extends EntityBase {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PasswordFragment> passwordFragments;
 
+    @Column(name = "CURRENT_PASSWORD_FRAGMENT_ID")
+    private Integer currentPasswordFragmentId;
+
     @PrePersist
     public void prePersist() {
         if (delayInSeconds == null) {

@@ -1,5 +1,6 @@
 package pl.bogumil.bai.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class RegistrationController extends AbstractController {
     }
 
     @RequestMapping("/registerUser")
-    public String registerUser(@RequestParam String login, @RequestParam String password, @RequestParam Integer delay, @RequestParam Integer attempts) {
+    public String registerUser(@RequestParam String login, @RequestParam String password, @RequestParam Integer delay, @RequestParam Integer attempts) throws JsonProcessingException {
         userProfileService.registerUser(login, password, delay, attempts);
         return REDIRECT_TO_HOME_PAGE;
     }

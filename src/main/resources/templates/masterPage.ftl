@@ -41,38 +41,44 @@
                         <li><a href="userAccountPage">Moje konto</a>
                         </li>
                     </#if>
-                    <#--<li class="dropdown">-->
-                        <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
-                        <#--<ul class="dropdown-menu">-->
-                            <#--<li><a href="#">Action</a>-->
-                            <#--</li>-->
-                            <#--<li><a href="#">Another action</a>-->
-                            <#--</li>-->
-                            <#--<li><a href="#">Something else here</a>-->
-                            <#--</li>-->
-                            <#--<li class="divider"></li>-->
-                            <#--<li><a href="#">Separated link</a>-->
-                            <#--</li>-->
-                            <#--<li class="divider"></li>-->
-                            <#--<li><a href="#">One more separated link</a>-->
-                            <#--</li>-->
-                        <#--</ul>-->
-                    <#--</li>-->
+                <#--<li class="dropdown">-->
+                <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+                <#--<ul class="dropdown-menu">-->
+                <#--<li><a href="#">Action</a>-->
+                <#--</li>-->
+                <#--<li><a href="#">Another action</a>-->
+                <#--</li>-->
+                <#--<li><a href="#">Something else here</a>-->
+                <#--</li>-->
+                <#--<li class="divider"></li>-->
+                <#--<li><a href="#">Separated link</a>-->
+                <#--</li>-->
+                <#--<li class="divider"></li>-->
+                <#--<li><a href="#">One more separated link</a>-->
+                <#--</li>-->
+                <#--</ul>-->
+                <#--</li>-->
                 </ul>
                 <#if USER??>
                     <form class="navbar-form navbar-right" role="search" action="logout" method="get">
                         <button type="submit" class="btn btn-default">Wyloguj</button>
                     </form>
                 <#else>
+
+                    <form class="navbar-form navbar-right" role="search" method="get" action="registration">
+                        <button type="submit" class="btn btn-default">Zarejestruj</button>
+                    </form>
+
                     <form class="navbar-form navbar-right" role="search" action="login" method="get">
                         <div class="form-group">
                             <input type="text" class="form-control" name="login" placeholder="Login">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-default">Zaloguj</button>
                     </form>
+
                 </#if>
 
             </div>

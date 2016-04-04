@@ -1,5 +1,6 @@
 package pl.bogumil.bai.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,6 +55,11 @@ public class BaiControllerAdvice {
         }
         model.addAttribute("error", "Błędny format hasła (min 8 max 16 znaków)");
         return "registration";
+    }
+
+    @ExceptionHandler(JsonProcessingException.class)
+    public String jsonProcessingErrorHandler(){
+        return "jsonProcessingError";
     }
 
 
