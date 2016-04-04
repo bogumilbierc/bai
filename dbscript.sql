@@ -76,77 +76,78 @@ CREATE TABLE PASSWORD_FRAGMENT (
 -- USER_PROFILE
 
 INSERT INTO `user_profile` (`id`, `login`, `last_login_date`, `LAST_FAILED_LOGIN_DATE`, `BLOCKADE_DEADLINE`, `PASSWORD`, `IS_ACTIVE`, `NO_OF_FAILED_LOGINS_SINCE_LAST`, `NO_OF_ATTEMPTS_BEFORE_BLOCKADE`, `DELAY_IN_SECONDS`, `CURRENT_PASSWORD_FRAGMENT_ID`, `PASSWORD_LENGTH`)
-VALUES (1, 'bolek', NULL, NULL, NULL, '$2a$10$rYFAEoAqxAyJtyI0pJpOqORQugqBhVTseQLCZsxCWdWz2HQAanjiG', 1, 0, 3, 3, 1,
+VALUES (1, 'antek', NULL, NULL, NULL, '$2a$10$TBygVhH4SadL8QV.z1UGKOSyxira3rfcSn4nAGvB0v3b4nyi5LByq', 1, 0, 3, 3, 1,
+        9); -- Antek123!
+INSERT INTO `user_profile` (`id`, `login`, `last_login_date`, `LAST_FAILED_LOGIN_DATE`, `BLOCKADE_DEADLINE`, `PASSWORD`, `IS_ACTIVE`, `NO_OF_FAILED_LOGINS_SINCE_LAST`, `NO_OF_ATTEMPTS_BEFORE_BLOCKADE`, `DELAY_IN_SECONDS`, `CURRENT_PASSWORD_FRAGMENT_ID`, `PASSWORD_LENGTH`)
+VALUES (2, 'bolek', NULL, NULL, NULL, '$2a$10$zeYubYCCCjjCwkEnH.Djd.O1HabXrZ4SgW5EIdNdSsgHt55pVyFnu', 1, 0, 3, 3, 11,
         9); -- Bolek123!
 INSERT INTO `user_profile` (`id`, `login`, `last_login_date`, `LAST_FAILED_LOGIN_DATE`, `BLOCKADE_DEADLINE`, `PASSWORD`, `IS_ACTIVE`, `NO_OF_FAILED_LOGINS_SINCE_LAST`, `NO_OF_ATTEMPTS_BEFORE_BLOCKADE`, `DELAY_IN_SECONDS`, `CURRENT_PASSWORD_FRAGMENT_ID`, `PASSWORD_LENGTH`)
-VALUES (2, 'lolek', NULL, NULL, NULL, '$2a$10$W5XSDb6lmNGiWwLGvNb1KuKvvkg0OPA5MAWYBuUJlWZ/f9212x5P2', 1, 0, 3, 3, 11,
+VALUES (3, 'lolek', NULL, NULL, NULL, '$2a$10$kxmsLKFF0RlC6tUv1/JthuRVp6j79tl.nLvkas14KYdxy9M36VYpy', 1, 0, 3, 3, 21,
         9); -- Lolek123!
-INSERT INTO `user_profile` (`id`, `login`, `last_login_date`, `LAST_FAILED_LOGIN_DATE`, `BLOCKADE_DEADLINE`, `PASSWORD`, `IS_ACTIVE`, `NO_OF_FAILED_LOGINS_SINCE_LAST`, `NO_OF_ATTEMPTS_BEFORE_BLOCKADE`, `DELAY_IN_SECONDS`, `CURRENT_PASSWORD_FRAGMENT_ID`, `PASSWORD_LENGTH`)
-VALUES (3, 'antek', NULL, NULL, NULL, '$2a$10$W/8l/k2HwIJeVVkunFuTfuvEPbMgWikLlT/ugTmpTS.t65yEbIJru', 1, 0, 3, 3, 21,
-        9); -- Antek123!
 
 -- PASSWORD_FRAGMENT
 
+
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (1, 1, '[0,1,2,6,7]', '$2a$10$bKNSOD7Frb74aM3LFao9ueXmhvmpW6Bp2Rxq.TJMhStjldzaFqrfC');
+VALUES (1, 1, '[2,3,4,6,8]', '$2a$10$Aze/mY3WtBIWdbuPoRwZoeOl2gFVkXMohwSQo15d5ci0Tm39ZyO8i');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (2, 1, '[5,4,1,3,7]', '$2a$10$yiVeVG8H2M52VwFP4Nmg2O3uVI2vJz72/tQg2KYthLyTfSW5zir7W');
+VALUES (2, 1, '[0,1,3,5,8]', '$2a$10$vJSCTH5y.ZVR5/Zq2RrhxOq0829mTECKbIyOAjS9F1wISHlzoR5yK');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (3, 1, '[7,0,5,1,4]', '$2a$10$HorVTNlMnZKg64PCV1KvCOb4R8o4nVNzfdpSD3qxyjW7VTnrckvpm');
+VALUES (3, 1, '[0,1,4,7,8]', '$2a$10$DWsaMKiiFE79IKM3ExE9qOIazP7a98jFgUr64mkglDoeHQ1JMYFW2');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (4, 1, '[8,6,5,7,2]', '$2a$10$v7dNZ0CE2.kAa6x5izMbFO.8yMbnrT2LlEnFA/EFTe3OR4jVi/jlS');
+VALUES (4, 1, '[1,2,3,7,8]', '$2a$10$Tdkylvhw1Sjodi35jrBlgudXtnu139KGOWGLxKmPFH3p5q0moaoPG');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (5, 1, '[2,1,0,7,5]', '$2a$10$yRrn6mWdDgLw19X4zqRMZ.wubcidAaAh9ydrghSGZtwV0kWx2xQqa');
+VALUES (5, 1, '[0,1,3,5,7]', '$2a$10$NVOynX0aOA4NWFgBj48FbeuGJAh60MMgODbLA6DIUtQBZp3KZ6Uci');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (6, 1, '[0,6,1,2,7]', '$2a$10$nFvEUl/vVc3SFFn3GClGc.YDYcfmvmPCpPFctxDpwkmd/V5jlzsOu');
+VALUES (6, 1, '[0,1,2,3,7]', '$2a$10$kZ8I/AJuNHcAJy21XfuVheG2QBAm63mEBzp5aGZq2zuD2eO09A0lO');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (7, 1, '[8,0,2,4,3]', '$2a$10$U5G0iLAnkCywXGiRbqb83OHSOQV2AlgbFI4nlaAS10BPCJP7P28xO');
+VALUES (7, 1, '[0,2,3,4,7]', '$2a$10$n.K/wdXi1udrrf12db4sreZtaaozZ5Y/a1B4WEh0gl11vLRoQzsQC');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (8, 1, '[1,4,5,7,3]', '$2a$10$216.i.VtXSbivONvIvtQ8OYMb4f3IsANOIigGKhrBAluNtoUlMkky');
+VALUES (8, 1, '[1,2,3,5,8]', '$2a$10$DtDItRp9d4OmG.5iyrZWC.X7gNJv.QV1cYQmG17NVyIJGJfpdYnj6');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (9, 1, '[8,3,2,4,1]', '$2a$10$Yk6yps/IIExJ4WHcIygeIe595SlhNvboKaSB6w6A.Vds4W3Wc/g8S');
+VALUES (9, 1, '[1,2,6,7,8]', '$2a$10$ifMAcgSFvK/D9i5LLq/QVOR7XDZDWqoEp4EBvUrXcytaxChO1QlvK');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (10, 1, '[3,2,5,1,4]', '$2a$10$dch3I9GCTteqX6X0ihQqCeYlu1.320Aqgbf.TXuKJXBl6Hq9gAqee');
+VALUES (10, 1, '[2,4,5,7,8]', '$2a$10$9r4yeWECu2cWI4geWkwX0e96NzB0iFEagurL5RH5P7MLfaAzu5YNe');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (11, 2, '[2,3,4,8,1]', '$2a$10$7vwfNljxY4j3x7ds6iQe0eEcbS9JPKUujSKwUuuwaMEoNz9MLstYq');
+VALUES (11, 2, '[0,1,5,6,8]', '$2a$10$ozjcbxCwu/kz7J3IQ8wROulnhL2A7rwvCJyz6q161Tmnk49PAAcYm');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (12, 2, '[8,3,7,2,6]', '$2a$10$g2AKu0PvrWqQy5h80gagm.AtTNdF56NCP8FQAcK6PC10SWy/YlXTK');
+VALUES (12, 2, '[0,4,5,6,8]', '$2a$10$.VMQQF72gfMTWzZDFbadfuZc7xCHC9Axh9LZ7Fyi23TerLk.bpRQ6');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (13, 2, '[4,6,5,0,8]', '$2a$10$JOQALspszLHsjp2stU8EouK1Lff6uvzLiPx0RF8nfPH0sbiNisCwO');
+VALUES (13, 2, '[0,2,3,7,8]', '$2a$10$sIxxSn0IVAn6pVPRhaTGbO/9q52bLsLRkVRv.51iz3k/Ilq0Tm4S2');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (14, 2, '[0,4,3,7,6]', '$2a$10$fUi2hpBKyF9rPLAzWSaV1.apwckmdIY1peY8tPA.6eLVVUGGY/oOy');
+VALUES (14, 2, '[1,3,4,5,8]', '$2a$10$eMBO..f1x6dSf8aRwCuU3.cV6WPO/nEcOf5JHFkHsSTNwSLqCsKya');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (15, 2, '[4,3,6,7,8]', '$2a$10$TjUTBzKI/rB5.XG/beLMvemklCx4UtIqBNH6Ewza82nQT0qoj/Zpi');
+VALUES (15, 2, '[0,1,2,3,4]', '$2a$10$W5tFAqHCpOkcHK9MYzVW..uUVTlts0Hv46CulmsLwzwkPWGFTNcTe');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (16, 2, '[0,2,3,4,1]', '$2a$10$E5bsYH0XidB7yueDpCThCOR.ShNBkReqRWCjABUlKI.ekhQ879nWO');
+VALUES (16, 2, '[0,3,4,5,6]', '$2a$10$H5QdiFz8mdddunq5sIS.d.5xiNZKJRDWZfwch3CyhH9QR4ZIEOdgq');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (17, 2, '[5,8,0,7,2]', '$2a$10$SbpTf2NLXy9FJjpF9yZkpuEzc3g1Gi5.P9LgFfZK9XndbN3tJjg/q');
+VALUES (17, 2, '[0,1,4,6,8]', '$2a$10$xjgAOvLzzYChESIeFw8flO3T7Z7eH82rWDhbxz7g/OdxyB4uK.jpa');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (18, 2, '[5,1,2,4,8]', '$2a$10$KxIskQOmjQy54MUJ2lw3M.Z3rNtavciyRJf4nfye3mwW6P7Ar3FCe');
+VALUES (18, 2, '[0,2,3,4,7]', '$2a$10$7Uvo0f9yiW2yP3J3s/hEieeXBWfg2t1XQdbZS1uMhsUstkwlkwpne');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (19, 2, '[1,8,4,5,2]', '$2a$10$bOevZZK.GVfDacdiQT.L6.YsyKmITZsmecpEBHMNuCpEcwSxAEpJy');
+VALUES (19, 2, '[0,3,4,6,8]', '$2a$10$9XsAuV4A7Ka.oUtDPfDchOB6ycK7yg1xpxpdwYmLLZryTxy7Xz0jy');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (20, 2, '[5,3,6,4,2]', '$2a$10$q4wZ9smzdcXH78Ofw1BjrOuZU/810H9roMcFOyv5sZFVRRWjDVuOK');
+VALUES (20, 2, '[1,3,4,5,6]', '$2a$10$GEr6og/oyKW..xznIIBt0uvnU6YngoBn5NDPhJRqMV2IV3S/tVp6S');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (21, 3, '[0,6,2,5,1]', '$2a$10$TVynmd.ohNbFGsJbLbYhXeNw1p7GA9t81TzfipOIeWrw5DFRcoxdK');
+VALUES (21, 3, '[0,2,3,5,6]', '$2a$10$h8ZBOHVsKyyDEf3o3P2Nx.pob5eapLafIjI1LjGmMz3urTTCrkX6W');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (22, 3, '[6,8,5,4,1]', '$2a$10$DpXYPVGossr68fw2ZxH7WuoGdL1Pn9u7loh5.xqvFaBh9Cqt0F8ya');
+VALUES (22, 3, '[0,1,3,7,8]', '$2a$10$1hxHceTM4cTOJChRHEl1Pu0sooaVZUiEH8sa.bHv/EIW2R7wQwy8K');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (23, 3, '[4,7,0,5,2]', '$2a$10$WH46QeFG2bka9JF5AL0p9Ow0kyQORHk2I9AMi/TAwTpzxioM2jPg2');
+VALUES (23, 3, '[2,4,5,6,7]', '$2a$10$3lvKNsBg4G6P1qxpMoxtKevx0jkgzyQNgHTtQZe62A4e667NTFE0e');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (24, 3, '[4,6,8,7,1]', '$2a$10$7Q93pbNRMIsrgDHUIreYpeP0nSPZ9py8aKAkVf1xHJn5eCbsW6ETm');
+VALUES (24, 3, '[0,1,2,3,7]', '$2a$10$C2Enmb6Yl/zcJkw3WfhsU.7mZZpddn8xuTNCRKlyCHRomKa3C8CSm');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (25, 3, '[1,5,8,7,3]', '$2a$10$26w28jX7wwApp3PBIyTnReZZ5x6EqvoSx7q.C1SZ4OqKKpBTF0ulS');
+VALUES (25, 3, '[0,1,2,4,8]', '$2a$10$ZxW2L4nhliU/Gy.Sk31ad.iNdeuYslaUQt72NyQSj/SG9rE5BHH9K');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (26, 3, '[2,7,0,8,1]', '$2a$10$2w9bJ4N4UlnOnmtHP5R0F.cGCtEI5t.J2v9hgiMA6WP9oS57YdLZG');
+VALUES (26, 3, '[1,2,5,7,8]', '$2a$10$tAJjLBsU4KhC1b3cABy7m.vgtkRmXb6NCgIg/3pzI2qrP1741LduS');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (27, 3, '[7,0,5,8,1]', '$2a$10$.lhMINeBHOOa0Ha/4djh/uwRuxrBwoV6RAfrQTRazuKU6EbRcHLda');
+VALUES (27, 3, '[0,3,4,5,8]', '$2a$10$lUyZiNBh/u9S3ACwGOwwbeRD66nRfMObBVqO1952FJcjropC3eZV6');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (28, 3, '[4,1,6,8,0]', '$2a$10$ru9Z3evnXkzXiNTs6sUj1elRlv3U.oGzr1fSnupGBUK/zuuyYs1eq');
+VALUES (28, 3, '[1,2,3,4,5]', '$2a$10$B871/H5yiiCwPAboFNPiIeV2/E8sy71esffYiLST9BcLmlvAn1f/C');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (29, 3, '[8,6,0,5,2]', '$2a$10$Sy/BY97gYwkoe7aUhyrgxeyyb/3m6QXduVtux1dcZJ6LmTiNrZ8Fy');
+VALUES (29, 3, '[0,2,3,4,8]', '$2a$10$w2X9bnzuzYrpuR3G5Yxb.OIiALExA3zWwWpCcf0VWwC2QjebeuhKi');
 INSERT INTO `password_fragment` (`id`, `USER_ID`, `JSON_MASK`, `PASSWORD_HASH`)
-VALUES (30, 3, '[5,1,7,4,8]', '$2a$10$CnRTe9NbZqvKKToZ5bpZLOg9t7F4LMMXTdnVmm2MNpWDTzhRsk1tK');
+VALUES (30, 3, '[0,1,5,6,8]', '$2a$10$8/DgbobXXj/KF2Tt7sZcTuyJszKgHXb.gANP59c0KadpoYzYuWq1.');
 
 -- MESSAGE
 

@@ -1,0 +1,9 @@
+#LOGOWANIE CZĄSTKOWE WYBIERZ LOGIN:
+http://localhost:8085/loginWithFragmentLoginCheck?login=bolek
+
+#LOGOWANIE CZĄSTKOWE WYBIERZ HASŁO
+##BŁĘDNE:
+
+##POPRAWNE:
+
+

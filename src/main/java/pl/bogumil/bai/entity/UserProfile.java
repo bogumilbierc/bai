@@ -1,6 +1,5 @@
 package pl.bogumil.bai.entity;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -72,8 +71,15 @@ public class UserProfile extends EntityBase {
                 .filter(passwordFragment1 ->
                         passwordFragment1.getId().equals(currentPasswordFragmentId))
                 .findFirst().get();
-        return objectMapper.readValue(passwordFragment.getJsonMask(), new TypeReference<List<Integer>>() {
-        });
+        return passwordFragment.getPasswordMask();
+    }
+
+    public PasswordFragment getCurrentPasswordFragment() {
+        return passwordFragments
+                .stream()
+                .filter(passwordFragment1 ->
+                        passwordFragment1.getId().equals(currentPasswordFragmentId))
+                .findFirst().get();
     }
 
 }

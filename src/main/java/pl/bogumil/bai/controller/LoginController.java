@@ -1,6 +1,7 @@
 package pl.bogumil.bai.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,10 +48,13 @@ public class LoginController extends AbstractController {
 
 
     @RequestMapping("/loginWithFragmentLoginCheck")
-    public String loginWithFragmentEnterLoginPage(@RequestParam("login") String login, Model model) throws IOException {
+    public String loginWithFragmentEnterLoginPage(@RequestParam("login") String login, @RequestParam(name = "error", required = false) String error, Model model) throws IOException {
         UserProfile userProfile = userProfileService.findByLogin(login);
         if (userProfile == null) {
             throw new UserDoesNotExistsException();
+        }
+        if (StringUtils.isNotBlank(error)) {
+            model.addAttribute("error", "yes");
         }
         model.addAttribute("login", login);
         model.addAttribute("mask", userProfile.getCurrentPasswordMask());
@@ -61,8 +65,8 @@ public class LoginController extends AbstractController {
 
     @RequestMapping("/loginWithFragmentPasswordCheck")
     public String loginPagePasswordFragment(@ModelAttribute LoginFragmentViewModel loginFragmentViewModel, Model model) throws IOException {
-//        model.addAttribute("mask", userProfileService.getCurrentPasswordMask(login));
-        return "loginFragmentEnterPassword";
+        loginService.loginUserPartialPassword(loginFragmentViewModel.getLogin(), loginFragmentViewModel.getPassword());
+        return REDIRECT_TO_HOME_PAGE;
     }
 
 }

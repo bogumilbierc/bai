@@ -3,15 +3,18 @@
 <@masterPage.masterPage>
 
 <h2>Logowanie</h2>
+<#if error??>
+    <h2>Błędne hasło</h2>
+</#if>
 
 <form role="form" action="loginWithFragmentPasswordCheck" method="get">
 
     <input type="hidden" name="login" value="${login}">
-    <#--<input type="hidden" name="mask" value="${mask}">-->
+<#--<input type="hidden" name="mask" value="${mask}">-->
 
     <table style="margin: auto;">
         <tr>
-            <#list 0..length as x>
+            <#list 0..(length-1) as x>
                 <td style="width: 20px">
                     <#if mask?seq_contains(x)>
                         <input style="width: 20px" type="text" name="password[${x}]">
@@ -23,7 +26,7 @@
             </#list>
         </tr>
         <tr>
-            <#list 0..length as x>
+            <#list 0..(length-1) as x>
                 <td style="width: 20px">
                 ${x}
                 </td>

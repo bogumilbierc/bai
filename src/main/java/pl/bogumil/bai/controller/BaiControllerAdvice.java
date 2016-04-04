@@ -58,8 +58,13 @@ public class BaiControllerAdvice {
     }
 
     @ExceptionHandler(JsonProcessingException.class)
-    public String jsonProcessingErrorHandler(){
+    public String jsonProcessingErrorHandler() {
         return "jsonProcessingError";
+    }
+
+    @ExceptionHandler(BadPartialCredentialsException.class)
+    public String badPartialCredentialsHandler(BadPartialCredentialsException exception) {
+        return "redirect:/loginWithFragmentLoginCheck?login=" + exception.getMessage() + "&error=yes";
     }
 
 

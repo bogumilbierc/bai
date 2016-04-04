@@ -158,6 +158,7 @@ public class UserProfileService {
 
                 Integer currentFragmentLength = maxFragmentLenght == MIN_LENGTH_OF_PASSWORD_FRAGMENT ? MIN_LENGTH_OF_PASSWORD_FRAGMENT : ThreadLocalRandom.current().nextInt(MIN_LENGTH_OF_PASSWORD_FRAGMENT, maxFragmentLenght);
                 List<Integer> currentFragmentPositions = positions.subList(0, currentFragmentLength);
+                Collections.sort(currentFragmentPositions);
                 if (!fragmentsMasks.contains(currentFragmentPositions)) {
                     fragmentsMasks.add(new ArrayList<Integer>(currentFragmentPositions));
                     added = true;

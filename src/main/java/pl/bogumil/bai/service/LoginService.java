@@ -1,5 +1,6 @@
 package pl.bogumil.bai.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.bogumil.bai.dto.UserInSession;
 import pl.bogumil.bai.entity.NotExistingUserProfile;
+import pl.bogumil.bai.entity.PasswordFragment;
 import pl.bogumil.bai.entity.QNotExistingUserProfile;
 import pl.bogumil.bai.entity.UserProfile;
-import pl.bogumil.bai.exception.BadCredentialsException;
-import pl.bogumil.bai.exception.DelayNeededException;
-import pl.bogumil.bai.exception.UserDoesNotExistsException;
-import pl.bogumil.bai.exception.UserIsBlockedException;
+import pl.bogumil.bai.exception.*;
 import pl.bogumil.bai.helper.SessionHelper;
 import pl.bogumil.bai.repositories.NotExistingUserRepository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -36,11 +36,59 @@ public class LoginService {
     private final SessionHelper sessionHelper;
     private final PasswordEncoder passwordEncoder;
     private final NotExistingUserRepository notExistingUserRepository;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
+    @Transactional(noRollbackFor = {BadPartialCredentialsException.class, UserDoesNotExistsException.class})
+    public void loginUserPartialPassword(String login, String[] password) throws IOException {
+        UserProfile userProfile = loginUserCommon(login);
+        PasswordFragment passwordFragment = userProfile.getCurrentPasswordFragment();
+        String concatenatedPassword = "";
+        List<Integer> passwordMask = passwordFragment.getPasswordMask();
+        for (int i = 0; i < password.length; i++) {
+            if (passwordMask.contains(i)) {
+                concatenatedPassword += password[i];
+            }
+        }
+        if (passwordEncoder.matches(concatenatedPassword, passwordFragment.getPasswordHash())) {
+            fillUserInSession(userProfile);
+            int previousFragmentId = userProfile.getCurrentPasswordFragmentId();
+            int currentFragmentId;
+
+            do {
+                currentFragmentId = userProfile.getPasswordFragments().get(ThreadLocalRandom.current().nextInt(1, 5)).getId();
+            } while (previousFragmentId == currentFragmentId);
+            userProfile.setCurrentPasswordFragmentId(currentFragmentId);
+            userProfileService.save(userProfile);
+            return;
+        }
+        manageBlocks(userProfile);
+        throw new BadPartialCredentialsException(userProfile.getLogin());
+    }
 
 
     @Transactional(noRollbackFor = {BadCredentialsException.class, UserDoesNotExistsException.class})
     public void loginUser(String login, String password) {
+        UserProfile userProfile = loginUserCommon(login);
+        if (passwordEncoder.matches(password, userProfile.getPassword())) {
+            fillUserInSession(userProfile);
+            return;
+        }
+        manageBlocks(userProfile);
+        throw new BadCredentialsException();
+    }
+
+    private void fillUserInSession(UserProfile userProfile) {
+        UserInSession userInSession = new UserInSession();
+        userInSession.setLogin(userProfile.getLogin());
+        userInSession.setId(userProfile.getId());
+        userInSession.setLastLoginDate(userProfile.getLastLoginDate());
+        sessionHelper.setUserInSession(userInSession);
+        userProfile.setLastLoginDate(LocalDateTime.now());
+        userProfile.setNumberOfFailedLoginsSinceLast(0);
+        userProfileService.save(userProfile);
+    }
+
+    public UserProfile loginUserCommon(String login) {
         UserProfile userProfile = userProfileService.findByLogin(login);
         if (userProfile == null) {
             manageNotExistingUser(login);
@@ -52,19 +100,7 @@ public class LoginService {
         if (userProfile.getBlockadeDeadline() != null && userProfile.getBlockadeDeadline().isAfter(LocalDateTime.now())) {
             throw new DelayNeededException(userProfile.getBlockadeDeadline().toString());
         }
-        if (passwordEncoder.matches(password, userProfile.getPassword())) {
-            UserInSession userInSession = new UserInSession();
-            userInSession.setLogin(login);
-            userInSession.setId(userProfile.getId());
-            userInSession.setLastLoginDate(userProfile.getLastLoginDate());
-            sessionHelper.setUserInSession(userInSession);
-            userProfile.setLastLoginDate(LocalDateTime.now());
-            userProfile.setNumberOfFailedLoginsSinceLast(0);
-            userProfileService.save(userProfile);
-            return;
-        }
-        manageBlocks(userProfile);
-        throw new BadCredentialsException();
+        return userProfile;
     }
 
     private void manageBlocks(UserProfile userProfile) {
