@@ -41,6 +41,8 @@
                         <li><a href="userAccountPage">Moje konto</a>
                         </li>
                     </#if>
+                    <li><a href="loginFragment">Loguj fragmentem</a>
+                    </li>
                 <#--<li class="dropdown">-->
                 <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
                 <#--<ul class="dropdown-menu">-->

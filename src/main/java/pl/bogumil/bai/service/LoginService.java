@@ -18,6 +18,7 @@ import pl.bogumil.bai.helper.SessionHelper;
 import pl.bogumil.bai.repositories.NotExistingUserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -35,6 +36,8 @@ public class LoginService {
     private final SessionHelper sessionHelper;
     private final PasswordEncoder passwordEncoder;
     private final NotExistingUserRepository notExistingUserRepository;
+
+
 
     @Transactional(noRollbackFor = {BadCredentialsException.class, UserDoesNotExistsException.class})
     public void loginUser(String login, String password) {

@@ -1,10 +1,13 @@
 package pl.bogumil.bai.entity;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import pl.bogumil.bai.entity.common.EntityBase;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -43,11 +46,14 @@ public class UserProfile extends EntityBase {
     @JoinTable(name = "ALLOWED_MESSAGE", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID"))
     private List<Message> allowedMessages;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PasswordFragment> passwordFragments;
 
     @Column(name = "CURRENT_PASSWORD_FRAGMENT_ID")
     private Integer currentPasswordFragmentId;
+
+    @Column(name = "PASSWORD_LENGTH")
+    private Integer passwordLength;
 
     @PrePersist
     public void prePersist() {
@@ -57,6 +63,17 @@ public class UserProfile extends EntityBase {
         if (numberOfAttempsBeforeBlockade == null) {
             numberOfAttempsBeforeBlockade = ThreadLocalRandom.current().nextInt(1, 5);
         }
+    }
+
+    public List<Integer> getCurrentPasswordMask() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        PasswordFragment passwordFragment = passwordFragments
+                .stream()
+                .filter(passwordFragment1 ->
+                        passwordFragment1.getId().equals(currentPasswordFragmentId))
+                .findFirst().get();
+        return objectMapper.readValue(passwordFragment.getJsonMask(), new TypeReference<List<Integer>>() {
+        });
     }
 
 }

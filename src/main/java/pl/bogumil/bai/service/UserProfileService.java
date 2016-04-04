@@ -19,7 +19,9 @@ import pl.bogumil.bai.exception.UserWithThatLoginAlreadyExistsException;
 import pl.bogumil.bai.helper.SessionHelper;
 import pl.bogumil.bai.repositories.UserProfileRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -100,6 +102,7 @@ public class UserProfileService {
         userProfile.setPassword(passwordEncoder.encode(password));
         userProfile.setIsActive(true);
         userProfile.setPasswordFragments(generatePasswordFragments(password, userProfile));
+        userProfile.setPasswordLength(password.length());
 
         userProfileRepository.saveAndFlush(userProfile);
         userProfile.setCurrentPasswordFragmentId(userProfile.getPasswordFragments().get(0).getId());
