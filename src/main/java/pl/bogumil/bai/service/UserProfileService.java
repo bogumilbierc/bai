@@ -62,12 +62,14 @@ public class UserProfileService {
     }
 
     @Transactional
-    public void changePassword(String password, String oldPassword) {
+    public void changePassword(String password, String oldPassword) throws JsonProcessingException {
 
         UserProfile userProfile = getCurrentUser();
         if (passwordEncoder.matches(oldPassword, userProfile.getPassword())) {
             validatePassword(password, true);
             userProfile.setPassword(passwordEncoder.encode(password));
+            userProfile.getPasswordFragments().clear();
+            userProfile.getPasswordFragments().addAll(generatePasswordFragments(password, userProfile));
             userProfileRepository.saveAndFlush(userProfile);
             log.info("zmiana hasla dla uzytkownika " + userProfile.getLogin());
             return;

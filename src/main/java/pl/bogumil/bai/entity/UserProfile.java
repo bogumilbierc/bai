@@ -45,7 +45,7 @@ public class UserProfile extends EntityBase {
     @JoinTable(name = "ALLOWED_MESSAGE", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID"))
     private List<Message> allowedMessages;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<PasswordFragment> passwordFragments;
 
     @Column(name = "CURRENT_PASSWORD_FRAGMENT_ID")

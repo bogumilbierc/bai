@@ -1,5 +1,6 @@
 package pl.bogumil.bai.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class UserProfileController {
     }
 
     @RequestMapping("/changePassword")
-    public String changePassword(@RequestParam String password, @RequestParam String oldPassword) {
+    public String changePassword(@RequestParam String password, @RequestParam String oldPassword) throws JsonProcessingException {
         userProfileService.changePassword(password, oldPassword);
         return "redirect:/userAccountPage";
     }
