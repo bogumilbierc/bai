@@ -43,6 +43,9 @@ public class UserProfile extends EntityBase {
     @JoinTable(name = "ALLOWED_MESSAGE", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID"))
     private List<Message> allowedMessages;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PasswordFragment> passwordFragments;
+
     @PrePersist
     public void prePersist() {
         if (delayInSeconds == null) {

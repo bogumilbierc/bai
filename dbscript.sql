@@ -1,4 +1,3 @@
-
 -- ----------------------------------------------------------------------
 -- ------- DROP--------------------------------------------------------
 -- ----------------------------------------------------------------------
@@ -60,12 +59,22 @@ CREATE TABLE ALLOWED_MESSAGE (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE PASSWORD_FRAGMENT (
+  id            INTEGER NOT NULL AUTO_INCREMENT,
+  USER_ID       INTEGER,
+  JSON_MASK     VARCHAR(255),
+  PASSWORD_HASH VARCHAR(255),
+  PRIMARY KEY (id)
+);
+
 -- ----------------------------------------------------------------------
 -- ------- DATA ---------------------------------------------------------
 -- ----------------------------------------------------------------------
 
-INSERT INTO USER_PROFILE (ID, login, password, IS_ACTIVE, NO_OF_ATTEMPTS_BEFORE_BLOCKADE, DELAY_IN_SECONDS)
-VALUES (1, 'bolek', '$2a$10$GdvBEHy0OIGdH1lYWrTKb.3gQd8SBRKM7Apo8IgcAsp2FJKT1hoFu', TRUE, 3, 4); -- Bolek123!
+INSERT INTO USER_PROFILE (ID, login, PASSWORD, IS_ACTIVE, NO_OF_ATTEMPTS_BEFORE_BLOCKADE, DELAY_IN_SECONDS
+)
+VALUES (1, 'bolek', '$2a$10$GdvBEHy0OIGdH1lYWrTKb.3gQd8SBRKM7Apo8IgcAsp2FJKT1hoFu', TRUE, 3, 4
+); -- Bolek123!
 INSERT INTO USER_PROFILE (ID, login, password, IS_ACTIVE, NO_OF_ATTEMPTS_BEFORE_BLOCKADE, DELAY_IN_SECONDS)
 VALUES (2, 'lolek', '$2a$10$FG.2sVbLkxD8QVHv8B.sPewZvAKz.gSEyQ83qwO0qw9ECfFfWN/JC', TRUE, 3, 5); -- Lolek123!
 INSERT INTO USER_PROFILE (ID, login, password, IS_ACTIVE, NO_OF_ATTEMPTS_BEFORE_BLOCKADE, DELAY_IN_SECONDS)
