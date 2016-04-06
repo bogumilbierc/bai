@@ -51,7 +51,7 @@
     <form role="form" method="get" action="addMessage">
 
         <div class="form-group">
-            <textarea class="form-control" rows="5" name="content"></textarea>
+            <textarea class="form-control" rows="5" name="content" required></textarea>
         </div>
         <button type="submit" class="btn btn-submit">zapisz</button>
     </form>

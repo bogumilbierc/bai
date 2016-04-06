@@ -17,7 +17,7 @@
             <#list 0..(length-1) as x>
                 <td style="width: 20px">
                     <#if mask?seq_contains(x)>
-                        <input style="width: 20px" type="text" name="password[${x}]">
+                        <input required style="width: 20px" type="text" name="password[${x}]">
                     <#else>
                         <input style="width: 20px; background-color: gray" type="text" value="*" name="password[${x}]"
                                readonly="readonly">

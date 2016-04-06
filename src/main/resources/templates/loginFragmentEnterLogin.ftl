@@ -6,7 +6,7 @@
 
 <form role="search" action="loginWithFragmentLoginCheck" method="get">
     <div class="form-group">
-        <input type="text" class="form-control" name="login" placeholder="Login">
+        <input required type="text" class="form-control" name="login" placeholder="Login">
     </div>
     <button type="submit" class="btn btn-default">Zaloguj</button>
 </form>

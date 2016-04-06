@@ -8,7 +8,7 @@
 
     <input type="hidden" name="messageId" value="${message.id}">
     <div class="form-group">
-        <textarea class="form-control" rows="5" name="content">${message.content}</textarea>
+        <textarea class="form-control" rows="5" name="content" required>${message.content}</textarea>
     </div>
     <button type="submit" class="btn btn-submit">zapisz</button>
 </form>

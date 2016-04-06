@@ -22,11 +22,11 @@
 <form method="get" action="editUser">
     <div class="form-group">
         <label for="delay">Opóźnienie po nieudanym logowaniu (w sekundach):</label>
-        <input type="number" class="form-control" name="delay" value="${user.delayInSeconds}">
+        <input required type="number" class="form-control" name="delay" value="${user.delayInSeconds}">
     </div>
     <div class="form-group">
         <label for="attempts">Ilość nieudanych logowań, po których ma nastąpić blokada konta:</label>
-        <input type="number" class="form-control" name="attempts" value="${user.numberOfAttempsBeforeBlockade}">
+        <input required type="number" class="form-control" name="attempts" value="${user.numberOfAttempsBeforeBlockade}">
     </div>
     <button type="submit" class="btn btn-submit">zapisz</button>
 </form>
@@ -40,11 +40,11 @@
 <form method="get" action="changePassword">
     <div class="form-group">
         <label for="oldPassword">stare hasło:</label>
-        <input type="password" class="form-control" name="oldPassword">
+        <input required type="password" class="form-control" name="oldPassword">
     </div>
     <div class="form-group">
         <label for="password">nowe hasło:</label>
-        <input type="password" class="form-control" name="password">
+        <input required type="password" class="form-control" name="password">
     </div>
     <button type="submit" class="btn btn-submit">zapisz</button>
 </form>

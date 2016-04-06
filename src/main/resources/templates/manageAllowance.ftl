@@ -48,7 +48,7 @@
 <form action="grantAccess" method="get">
     <input type="hidden" name="messageId" value="${message.id}">
     <div class="form-group">
-        <select class="form-control" name="userId">
+        <select required class="form-control" name="userId">
             <#list notAllowedUsers as user>
                 <option value="${user.id}">${user.login}</option>
             </#list>
