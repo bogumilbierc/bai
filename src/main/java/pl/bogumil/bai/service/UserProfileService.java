@@ -71,6 +71,8 @@ public class UserProfileService {
             userProfile.getPasswordFragments().clear();
             userProfile.getPasswordFragments().addAll(generatePasswordFragments(password, userProfile));
             userProfileRepository.saveAndFlush(userProfile);
+            userProfile.setCurrentPasswordFragmentId(userProfile.getPasswordFragments().get(0).getId());
+            userProfileRepository.saveAndFlush(userProfile);
             log.info("zmiana hasla dla uzytkownika " + userProfile.getLogin());
             return;
         }
