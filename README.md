@@ -1,7 +1,7 @@
 # bai
 projekt bai java + mysql
 
-Technologie:
+## Technologie:
 - Java 8
 - MySQL 5.5
 - SpringBoot 
@@ -12,7 +12,22 @@ Technologie:
 - QueryDSL
 
 
-Środowiska i narzędzia:
+## Środowiska i narzędzia:
 - IntelliJ IDEA
 - MySQL Workbench
 - GitHub
+
+## Uruchomienie aplikacji
+
+### Migracja bazy danych
+1. Należy zaaplikowac skrypt **dbscript.sql**
+
+### Uruchomienie backendu
+Z wykorzystaniem pluginu spring-boot:
+1. **cd bai**
+2. **mvn clean install**
+3. **mvn spring-boot:run**
+
+Wykorzystywany jest tomcat uruchamiany przez mavena
+
+### Aplikacja śmiga na porcie 8085
