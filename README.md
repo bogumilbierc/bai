@@ -24,9 +24,9 @@ projekt bai java + mysql
 
 ### Uruchomienie backendu
 Z wykorzystaniem pluginu spring-boot:
-1. **cd bai**
-2. **mvn clean install**
-3. **mvn spring-boot:run**
+-  **cd bai**
+-  **mvn clean install**
+-   **mvn spring-boot:run**
 
 Wykorzystywany jest tomcat uruchamiany przez mavena
 
