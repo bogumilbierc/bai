@@ -30,4 +30,4 @@ Z wykorzystaniem pluginu spring-boot:
 
 Wykorzystywany jest tomcat uruchamiany przez mavena
 
-### Aplikacja śmiga na porcie 8085
+### Aplikacja śmiga na porcie 8085, zakładając że na bazie jest user (dbuser:dbpass)
