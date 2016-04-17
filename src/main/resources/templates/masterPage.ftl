@@ -40,9 +40,11 @@
                     <#if USER??>
                         <li><a href="userAccountPage">Moje konto</a>
                         </li>
+                    <#else>
+                        <li><a href="loginFragment">Loguj fragmentem</a>
+                        </li>
                     </#if>
-                    <li><a href="loginFragment">Loguj fragmentem</a>
-                    </li>
+
                 <#--<li class="dropdown">-->
                 <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
                 <#--<ul class="dropdown-menu">-->
@@ -76,7 +78,8 @@
                             <input type="text" class="form-control" required name="login" placeholder="Login">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" required pattern=".{5,10}" name="password" placeholder="Password">
+                            <input type="password" class="form-control" required pattern=".{5,10}" name="password"
+                                   placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-default">Zaloguj</button>
                     </form>
