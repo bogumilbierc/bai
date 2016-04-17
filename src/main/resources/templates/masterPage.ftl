@@ -103,7 +103,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">&copy; 2016 Bogumił Bierć </p>
+        <p class="text-muted">&copy; 2016 Bogumił Bierć && Łukasz Mosiej </p>
     </div>
 </footer>
 

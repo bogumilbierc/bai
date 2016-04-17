@@ -1,5 +1,6 @@
 package pl.bogumil.bai.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,18 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pl.bogumil.bai.dto.UserInSession;
-import pl.bogumil.bai.entity.NotExistingUserProfile;
-import pl.bogumil.bai.entity.PasswordFragment;
-import pl.bogumil.bai.entity.QNotExistingUserProfile;
-import pl.bogumil.bai.entity.UserProfile;
+import pl.bogumil.bai.entity.*;
 import pl.bogumil.bai.exception.*;
 import pl.bogumil.bai.helper.SessionHelper;
 import pl.bogumil.bai.repositories.NotExistingUserRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -36,17 +38,27 @@ public class LoginService {
     private final SessionHelper sessionHelper;
     private final PasswordEncoder passwordEncoder;
     private final NotExistingUserRepository notExistingUserRepository;
+    public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final int MAX_PASSWORD_LENGTH = 16;
+    public static final int NUMBER_OF_PASSWORD_FRAGMENTS = 10;
+    public static final int MIN_LENGTH_OF_PASSWORD_FRAGMENT = 5;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional(noRollbackFor = {BadPartialCredentialsException.class, UserDoesNotExistsException.class})
     public void loginUserPartialPassword(String login, String[] password) throws IOException {
         UserProfile userProfile = loginUserCommon(login);
+        if(userProfile==null){
+            throw new BadPartialCredentialsException(login);
+        }
         PasswordFragment passwordFragment = userProfile.getCurrentPasswordFragment();
         String concatenatedPassword = "";
         List<Integer> passwordMask = passwordFragment.getPasswordMask();
         for (int i = 0; i < password.length; i++) {
             if (passwordMask.contains(i)) {
-                concatenatedPassword += password[i];
+                if (password[i] != null && !password[i].isEmpty()) {
+                    concatenatedPassword += password[i].charAt(0);
+
+                }
             }
         }
         if (passwordEncoder.matches(concatenatedPassword, passwordFragment.getPasswordHash())) {
@@ -67,7 +79,7 @@ public class LoginService {
 
 
     @Transactional(noRollbackFor = {BadCredentialsException.class, UserDoesNotExistsException.class})
-    public void loginUser(String login, String password) {
+    public void loginUser(String login, String password) throws JsonProcessingException {
         UserProfile userProfile = loginUserCommon(login);
         if (passwordEncoder.matches(password, userProfile.getPassword())) {
             fillUserInSession(userProfile);
@@ -88,11 +100,11 @@ public class LoginService {
         userProfileService.save(userProfile);
     }
 
-    public UserProfile loginUserCommon(String login) {
+    public UserProfile loginUserCommon(String login) throws JsonProcessingException {
         UserProfile userProfile = userProfileService.findByLogin(login);
         if (userProfile == null) {
             manageNotExistingUser(login);
-            throw new UserDoesNotExistsException();
+            return null;
         }
         if (!userProfile.getIsActive()) {
             throw new UserIsBlockedException();
@@ -117,7 +129,8 @@ public class LoginService {
         userProfileService.save(userProfile);
     }
 
-    private void manageNotExistingUser(String login) {
+    @Transactional
+    public void manageNotExistingUser(String login) throws JsonProcessingException {
         NotExistingUserProfile userProfile = notExistingUserRepository.findOne(qnesp.login.eq(login));
         if (userProfile == null) {
             userProfile = new NotExistingUserProfile();
@@ -127,6 +140,10 @@ public class LoginService {
             userProfile.setNumberOfFailedLoginsSinceLast(0);
             userProfile.setDelayInSeconds(ThreadLocalRandom.current().nextInt(1, 5));
             userProfile.setNumberOfAttempsBeforeBlockade(ThreadLocalRandom.current().nextInt(1, 5));
+            userProfile.setPasswordLength(ThreadLocalRandom.current().nextInt(MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH));
+            userProfile.setPasswordFragments(generatePasswordFragments(userProfile));
+            notExistingUserRepository.saveAndFlush(userProfile);
+            userProfile.setCurrentPasswordFragmentId(userProfile.getPasswordFragments().get(0).getId());
             notExistingUserRepository.saveAndFlush(userProfile);
             return;
         }
@@ -147,5 +164,43 @@ public class LoginService {
         }
         notExistingUserRepository.saveAndFlush(userProfile);
     }
+
+
+    private List<PasswordFragmentNotExistingUser> generatePasswordFragments(NotExistingUserProfile userProfile) throws JsonProcessingException {
+        List<List<Integer>> passwordMasks = generatePasswordFragmentsMasks(userProfile.getPasswordLength());
+        List<PasswordFragmentNotExistingUser> passwordFragments = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_PASSWORD_FRAGMENTS; i++) {
+            PasswordFragmentNotExistingUser fragment = new PasswordFragmentNotExistingUser();
+            fragment.setJsonMask(objectMapper.writeValueAsString(passwordMasks.get(i)));
+            fragment.setUser(userProfile);
+            passwordFragments.add(fragment);
+        }
+        return passwordFragments;
+    }
+
+    private List<List<Integer>> generatePasswordFragmentsMasks(Integer length) {
+        List<List<Integer>> fragmentsMasks = new ArrayList<>();
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            positions.add(i);
+        }
+        Integer maxFragmentLenght = length > 11 ? length / 2 : MIN_LENGTH_OF_PASSWORD_FRAGMENT;
+        for (int i = 0; i < NUMBER_OF_PASSWORD_FRAGMENTS; i++) {
+            boolean added = false;
+            while (!added) {
+                Collections.shuffle(positions);
+
+                Integer currentFragmentLength = maxFragmentLenght == MIN_LENGTH_OF_PASSWORD_FRAGMENT ? MIN_LENGTH_OF_PASSWORD_FRAGMENT : ThreadLocalRandom.current().nextInt(MIN_LENGTH_OF_PASSWORD_FRAGMENT, maxFragmentLenght);
+                List<Integer> currentFragmentPositions = positions.subList(0, currentFragmentLength);
+                Collections.sort(currentFragmentPositions);
+                if (!fragmentsMasks.contains(currentFragmentPositions)) {
+                    fragmentsMasks.add(new ArrayList<Integer>(currentFragmentPositions));
+                    added = true;
+                }
+            }
+        }
+        return fragmentsMasks;
+    }
+
 
 }

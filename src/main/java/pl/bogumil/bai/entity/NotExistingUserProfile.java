@@ -1,13 +1,14 @@
 package pl.bogumil.bai.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import pl.bogumil.bai.entity.common.EntityBase;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by bbierc on 2016-03-31.
@@ -31,4 +32,33 @@ public class NotExistingUserProfile extends EntityBase {
     private Integer delayInSeconds;
     @Column(name = "BLOCKADE_DEADLINE", columnDefinition = "DATETIME")
     private LocalDateTime blockadeDeadline;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<PasswordFragmentNotExistingUser> passwordFragments;
+
+    @Column(name = "CURRENT_PASSWORD_FRAGMENT_ID")
+    private Integer currentPasswordFragmentId;
+
+    @Column(name = "PASSWORD_LENGTH")
+    private Integer passwordLength;
+
+
+    public List<Integer> getCurrentPasswordMask() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        PasswordFragmentNotExistingUser passwordFragment = passwordFragments
+                .stream()
+                .filter(passwordFragment1 ->
+                        passwordFragment1.getId().equals(currentPasswordFragmentId))
+                .findFirst().get();
+        return passwordFragment.getPasswordMask();
+    }
+
+    public PasswordFragmentNotExistingUser getCurrentPasswordFragment() {
+        return passwordFragments
+                .stream()
+                .filter(passwordFragment1 ->
+                        passwordFragment1.getId().equals(currentPasswordFragmentId))
+                .findFirst().get();
+    }
+
 }
