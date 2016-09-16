@@ -1,7 +1,10 @@
 # bai
-projekt bai java + mysql
+Bezpieczeństwo Aplikacji Internetowych
+eng. Internet applications security.
+Project for one of the classes at Bialystok Technical University.
 
-## Technologie:
+
+## Technologies:
 - Java 8
 - MySQL 5.5
 - SpringBoot 
@@ -12,22 +15,22 @@ projekt bai java + mysql
 - QueryDSL
 
 
-## Środowiska i narzędzia:
+## Environment and tools:
 - IntelliJ IDEA
 - MySQL Workbench
 - GitHub
 
-## Uruchomienie aplikacji
+## Running the application
 
-### Migracja bazy danych
-1. Należy zaaplikowac skrypt **dbscript.sql**
+### Migrating the database
+1. Script **dbscript.sql** needs to be run agains database
 
-### Uruchomienie backendu
-Z wykorzystaniem pluginu spring-boot:
--  **cd bai**
--  **mvn clean install**
--   **mvn spring-boot:run**
+### Starting the app
+Server can be started using spring-boot plugin for maven:
 
-Wykorzystywany jest tomcat uruchamiany przez mavena
+- Build the project  **mvn clean install**
+- Run using Maven plugin  **mvn spring-boot:run**
 
-### Aplikacja śmiga na porcie 8085, zakładając że na bazie jest user (dbuser:dbpass)
+Plugin uses embedded Tomcat server
+
+### Application is running on port 8085. Database must have user ```dbuser``` with password ```dbpass```
