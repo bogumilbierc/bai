@@ -1,7 +1,7 @@
 # bai
-Bezpieczeństwo Aplikacji Internetowych
-eng. Internet applications security.
-Project for one of the classes at Bialystok Technical University.
+###Bezpieczeństwo Aplikacji Internetowych
+###eng. Internet applications security.
+###Project for one of the classes at Bialystok Technical University.
 
 
 ## Technologies:
